@@ -1,0 +1,168 @@
+<html>
+<head>
+   <title> Unit Convertor App by Harsha Patil</title>
+   <style>
+      *{
+             text-align:center;
+             font-family:Lucida Sans;
+       }
+    body{
+         background-color:#5a96bb;
+        font-size: 40px;
+         text-align: center;
+     }
+    h1{
+      font-size:30px;
+     color:white;
+     }
+   input, select, option{
+         margin: 10px auto;
+         padding: 10px;
+         width: 350px;
+         font-size: 20px;   
+         border-radius:5px;
+      }
+  .fc{
+    border:groove;
+   border-radius:12px;
+   width:30%;
+   margin:auto;
+   padding:15px;
+   background:white;
+   
+}
+input[type="submit"]{
+  background:#69b0c1;
+  color:white;
+}
+input[type="submit"]:hover{
+  background:#297ca0;
+  cursor:pointer;
+}
+
+h3{
+    font-size: 25px; 
+    color:#00a8b5;
+}
+   </style>
+</head>
+
+<body>
+   <br/>
+      <h1>Unit Convertor</h1>
+<div class="fc">
+    <form onsubmit="convert(event)">
+   <input type="number"  step="any" id="num" placeholder="Enter Value" oninput="
+  if(this.value===''){
+    document.getElementById('result').innerHTML='';}"/>
+<br/>
+   <select  id="type" onchange="loadUnits()">
+  <option value="">--Select--</option>
+  <option value="Time">Time</option>
+ <option value="Distance">Distance</option>
+ <option value="Speed">Speed</option>
+ </select>
+<br/>
+  <select id="fromUnit"><option value="">--From--</option></select>
+<br/>
+  <select id="toUnit"><option value="">--To--</option>
+</select>
+<br/>
+ <input type="submit" value="Convert"/>
+<h3 id = "result"></h3>
+</form>
+</div>
+<script>
+    function loadUnits(){
+      let  type = document.getElementById("type").value;
+      let  fromUnit = document.getElementById("fromUnit");
+     let  toUnit = document.getElementById("toUnit");
+
+      fromUnit.innerHTML = '<option value="">--From--</option>';
+  toUnit.innerHTML   = '<option value="">--To--</option>';
+
+  let options = "";
+
+  if(type === "Time"){
+    options += '<option value="seconds">Seconds</option>';
+    options += '<option value="minutes">Minutes</option>';
+    options += '<option value="hours">Hours</option>';
+  }
+  else if(type === "Distance"){
+    options += '<option value="meters">Meters</option>';
+    options += '<option value="kilometers">Kilometers</option>';
+    options += '<option value="miles">Miles</option>';
+  }
+  else if(type === "Speed"){
+    options += '<option value="m/s">m/s</option>';
+    options += '<option value="km/h">km/h</option>';
+    options += '<option value="mph">mph</option>';
+  }
+
+  
+  fromUnit.innerHTML += options;
+  toUnit.innerHTML += options;
+}
+ function convert(event){
+    event.preventDefault();
+
+   let numInput = document.getElementById("num");
+    let result = document.getElementById("result");
+
+    if(numInput.value === "")
+    {
+       alert("Please enter a value to convert");
+       result.innerHTML = "";
+       numInput.focus();
+       return;
+    }
+
+    let num = parseFloat(numInput.value);
+    let  type = document.getElementById("type").value;
+      let  fromUnit = document.getElementById("fromUnit");
+     let  toUnit = document.getElementById("toUnit");
+  
+      let r = num;
+     let f = fromUnit.value;
+     let t = toUnit.value;
+  if( f === t){
+      result.innerHTML = num + " " + f + " = " + r + " " + t;
+return;
+
+}
+
+  if(type === "Time"){
+     if(f=="minutes" && t=="seconds")  r = num*60;
+    if(f=="hours" && t=="minutes")    r = num*60;
+   if(f=="hours" && t=="seconds")  r = num*3600;
+  if(f=="seconds" && t=="minutes")  r = num/60;
+ if(f=="minutes" && t=="hours") r = num/60;
+ if(f=="seconds" && t=="hours") r = num/3600;
+  }
+
+  if(type === "Distance"){
+    if(f=="kilometers" && t=="meters")  r = num*1000;
+  if(f=="meters" && t=="kilometers") r = num/1000;
+  if(f=="miles"  && t=="kilometers")  r = num*1.609;
+ if(f=="kilometers" && t=="miles")      r = num/1.609;
+  if(f=="meters" && t=="miles")          r = num/1609;
+  if(f=="miles" && t=="meters")          r = num*1609;
+   }
+
+   if(type === "Speed"){
+      if(f=="km/h" && t=="m/s") r = num/3.6;
+     if(f=="m/s" && t=="km/h")  r = num*3.6;
+     if(f=="mph" && t=="km/h") r = num*1.609;
+      if(f=="km/h" && t=="mph")  r = num/1.609;
+     if(f=="mph" && t=="m/s")    r = num*0.447;
+  if(f=="m/s" && t=="mph")      r = num/0.447;
+     
+} 
+  result.innerHTML = num + " " + f + " = " + r + " " + t;
+ 
+}
+</script>
+</body>
+</html>
+
+  
